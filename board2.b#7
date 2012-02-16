@@ -463,31 +463,6 @@ Source: www.tycoelectronics.com .. ENG_DS_1654001_1099_RJ_L_0507.pdf</descriptio
 </package>
 </packages>
 </library>
-<library name="switch-alps">
-<description>ALPS Switch from Markus Faust &amp;lt;mfaust@htwm.de&amp;gt;&lt;p&gt;
-Source: EC12E.scr from eagle.support.ger on news.cadsoft.de at 08.10.2007</description>
-<packages>
-<package name="ALPS_EC12E_SW">
-<description>ALPS rotary encoder&lt;br&gt;
-EC12E series with push-on switch</description>
-<wire x1="-6.2" y1="-6.6" x2="6.2" y2="-6.6" width="0.127" layer="21"/>
-<wire x1="6.2" y1="-6.6" x2="6.2" y2="6.6" width="0.127" layer="21"/>
-<wire x1="6.2" y1="6.6" x2="-6.2" y2="6.6" width="0.127" layer="21"/>
-<wire x1="-6.2" y1="6.6" x2="-6.2" y2="-6.6" width="0.127" layer="21"/>
-<wire x1="-2.6" y1="1.5" x2="2.6" y2="1.5" width="0.127" layer="21"/>
-<circle x="0" y="0" radius="3" width="0.127" layer="21"/>
-<pad name="A" x="-2.5" y="-7.5" drill="1" shape="square"/>
-<pad name="C" x="0" y="-7.5" drill="1" shape="square"/>
-<pad name="B" x="2.5" y="-7.5" drill="1" shape="square"/>
-<pad name="D" x="-2.5" y="7" drill="1" shape="square"/>
-<pad name="E" x="2.5" y="7" drill="1" shape="square"/>
-<pad name="GND1" x="-6.1" y="0" drill="2.2" shape="square"/>
-<pad name="GND2" x="6.1" y="0" drill="2.2" shape="square"/>
-<text x="-2.5" y="8.5" size="1.27" layer="25">&gt;NAME</text>
-<text x="3.5" y="-9" size="1.27" layer="27" rot="R180">&gt;VALUE</text>
-</package>
-</packages>
-</library>
 <library name="holes">
 <description>&lt;b&gt;Mounting Holes and Pads&lt;/b&gt;&lt;p&gt;
 &lt;author&gt;Created by librarian@cadsoft.de&lt;/author&gt;</description>
@@ -734,12 +709,6 @@ design rules under a new name.</description>
 <attribute name="MF" value="" x="63.5" y="44.45" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="OC_FARNELL" value="unknown" x="63.5" y="44.45" size="1.778" layer="27" rot="R90" display="off"/>
 </element>
-<element name="SW1" library="switch-alps" package="ALPS_EC12E_SW" value="EC12E_SW" x="43.18" y="26.67" rot="R180">
-<attribute name="OC_NEWARK" value="74M1068" x="43.18" y="26.67" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MPN" value="EC12E2424407" x="43.18" y="26.67" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="MF" value="" x="43.18" y="26.67" size="1.778" layer="27" rot="R180" display="off"/>
-<attribute name="OC_FARNELL" value="1520813" x="43.18" y="26.67" size="1.778" layer="27" rot="R180" display="off"/>
-</element>
 <element name="X3" library="con-wago-500" package="W237-103" value="" x="3.81" y="34.29" rot="R270">
 <attribute name="OC_NEWARK" value="18M7116" x="3.81" y="34.29" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="MPN" value="237-103" x="3.81" y="34.29" size="1.778" layer="27" rot="R270" display="off"/>
@@ -775,7 +744,6 @@ design rules under a new name.</description>
 <contactref element="IC3" pad="GND"/>
 <contactref element="X4" pad="6"/>
 <contactref element="X4" pad="5"/>
-<contactref element="SW1" pad="C"/>
 <contactref element="X3" pad="1"/>
 <wire x1="41.91" y1="59.69" x2="38.1" y2="55.88" width="0.381" layer="1"/>
 <wire x1="41.91" y1="60.96" x2="41.91" y2="59.69" width="0.381" layer="1"/>
@@ -1009,7 +977,6 @@ design rules under a new name.</description>
 </signal>
 <signal name="N$5">
 <contactref element="IC1" pad="4"/>
-<contactref element="SW1" pad="B"/>
 <wire x1="21.59" y1="49.53" x2="20.32" y2="50.8" width="0.381" layer="1"/>
 <wire x1="38.1" y1="49.53" x2="21.59" y2="49.53" width="0.381" layer="1"/>
 <wire x1="43.18" y1="44.45" x2="38.1" y2="49.53" width="0.381" layer="1"/>
@@ -1018,7 +985,6 @@ design rules under a new name.</description>
 <wire x1="40.64" y1="34.29" x2="40.68" y2="34.17" width="0.381" layer="1"/>
 </signal>
 <signal name="N$7">
-<contactref element="SW1" pad="A"/>
 <contactref element="IC1" pad="5"/>
 <wire x1="17.78" y1="50.8" x2="20.32" y2="48.26" width="0.381" layer="1"/>
 <wire x1="17.78" y1="52.07" x2="17.78" y2="50.8" width="0.381" layer="1"/>

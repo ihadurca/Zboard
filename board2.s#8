@@ -3004,6 +3004,8 @@ EC12E series with push-on switch</description>
 <part name="GND4" library="SparkFun" deviceset="GND" device=""/>
 <part name="X3" library="con-wago-500" deviceset="W237-103" device=""/>
 <part name="GND6" library="SparkFun" deviceset="GND" device=""/>
+<part name="U$1" library="SparkFun" deviceset="5V" device=""/>
+<part name="U$2" library="SparkFun" deviceset="5V" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -3049,6 +3051,8 @@ EC12E series with push-on switch</description>
 <instance part="X3" gate="-2" x="38.1" y="71.12" rot="R270"/>
 <instance part="X3" gate="-3" x="33.02" y="71.12" rot="R270"/>
 <instance part="GND6" gate="1" x="43.18" y="63.5"/>
+<instance part="U$1" gate="G$1" x="-81.28" y="55.88" rot="R270"/>
+<instance part="U$2" gate="G$1" x="-48.26" y="40.64" rot="R90"/>
 </instances>
 <busses>
 </busses>
@@ -3148,6 +3152,19 @@ EC12E series with push-on switch</description>
 <wire x1="68.58" y1="7.62" x2="55.88" y2="7.62" width="0.1524" layer="91"/>
 <wire x1="55.88" y1="7.62" x2="55.88" y2="33.02" width="0.1524" layer="91"/>
 <pinref part="U$8" gate="G$1" pin="5V"/>
+</segment>
+<segment>
+<wire x1="-88.9" y1="55.88" x2="-96.52" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="C1" gate="G$1" pin="+"/>
+<junction x="-88.9" y="55.88"/>
+<wire x1="-88.9" y1="55.88" x2="-81.28" y2="55.88" width="0.1524" layer="91"/>
+<pinref part="IC3" gate="G$1" pin="OUT"/>
+<pinref part="U$1" gate="G$1" pin="5V"/>
+</segment>
+<segment>
+<pinref part="IC1" gate="G$1" pin="VCC@1"/>
+<wire x1="-40.64" y1="40.64" x2="-48.26" y2="40.64" width="0.1524" layer="91"/>
+<pinref part="U$2" gate="G$1" pin="5V"/>
 </segment>
 </net>
 <net name="N$2" class="0">
@@ -3305,21 +3322,6 @@ EC12E series with push-on switch</description>
 <segment>
 <pinref part="IC1" gate="G$1" pin="AVCC"/>
 <wire x1="-40.64" y1="66.04" x2="-43.18" y2="66.04" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$10" class="0">
-<segment>
-<pinref part="IC1" gate="G$1" pin="VCC@1"/>
-<wire x1="-40.64" y1="40.64" x2="-43.18" y2="40.64" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$11" class="0">
-<segment>
-<wire x1="-88.9" y1="55.88" x2="-96.52" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="C1" gate="G$1" pin="+"/>
-<junction x="-88.9" y="55.88"/>
-<wire x1="-88.9" y1="55.88" x2="-83.82" y2="55.88" width="0.1524" layer="91"/>
-<pinref part="IC3" gate="G$1" pin="OUT"/>
 </segment>
 </net>
 </nets>
