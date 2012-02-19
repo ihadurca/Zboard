@@ -19,16 +19,15 @@ struct config_t
 
 int LCDPin = 6;
 
-NewSoftSerial LCD(0,LCDPin); //LCD Serial is attached to pin 10
-
-// Data wire is plugged into port 7 on the Arduino
-// Connect a 4.7K resistor between VCC and the data pin (strong pullup)
+NewSoftSerial LCD(0,LCDPin); 
 #define DHT22_PIN 4
+// Connect a 4.7K resistor between VCC and the data pin (strong pullup)
 
 // Setup a DHT22 instance
 DHT22 myDHT22(DHT22_PIN);
-int relay1 = 8;
-int relay2 = 9;
+
+
+
 
 // setup our temp variables
 float tempc, tempf, relh;
@@ -42,13 +41,20 @@ Encoder knobLeft(2, 3);
 
 float positionLeft  = -999;
 
-
+//Set screen to 1
 int screen = 1;
-//Buttons
 
+
+//Button Pins
 int menubut = 10;
+
+//Define Relay Pins
+int relay1 = 8;
+int relay2 = 9;
+
+  
 //temp values
- float tempval;
+ float tempvalflt;
 void setup(void)
 {
   
@@ -123,17 +129,17 @@ void loop(void)
    //screens 2 & 3 accept user input - record changes if present and increment menu
    switch(screen){
      case 2:
-       if(configuration.destemp != tempval) //changes were made we should update the data structure and save.
+       if(configuration.destemp != tempvalflt) //changes were made we should update the data structure and save.
           {
-          configuration.destemp = tempval;
+          configuration.destemp = tempvalflt;
           save();
           }
    
      break; 
      case 3:
-       if(configuration.deshum != tempval) //changes were made we should update the data structure and save.
+       if(configuration.deshum != tempvalflt) //changes were made we should update the data structure and save.
           {
-          configuration.deshum = tempval;
+          configuration.deshum = tempvalflt;
           save();
           }
    
@@ -171,9 +177,8 @@ if(relh<configuration.deshum) {
 }
 
 
-  updateLCD(screen);
-  //Serial.print(millis());
-  //delay(100);
+updateLCD(screen);
+
 }
 
 
@@ -188,9 +193,6 @@ void updateLCD(int screenvar)
         LCD.print("%"); 
         selectLineTwo();
       
-       // float outputvalue;
-     //   outputvalue = 70+ positionLeft * .01;  
-      
         LCD.print(configuration.destemp);
         LCD.print("F");
         
@@ -198,17 +200,6 @@ void updateLCD(int screenvar)
         LCD.print(configuration.deshum);
         LCD.print("%");
        
-       
-       /* if (tempf > configuration.destemp){
-          LCD.print(" Above");
-          digitalWrite(relay1, HIGH);
-        }
-        else{
-          LCD.print(" Below");
-          digitalWrite(relay1, LOW);
-        }
-        
-        */
         break;
   case 2:
     selectLineOne(); 
@@ -216,8 +207,8 @@ void updateLCD(int screenvar)
     selectLineTwo();
     
    
-    tempval = configuration.destemp + positionLeft * .01;
-    LCD.print( tempval);
+    tempvalflt = configuration.destemp + positionLeft * .01;
+    LCD.print( tempvalflt);
     
     break;
   case 3:
@@ -226,11 +217,12 @@ void updateLCD(int screenvar)
     selectLineTwo();
     
    
-    tempval = configuration.deshum + positionLeft * .01;
-    LCD.print( tempval);
+    tempvalflt = configuration.deshum + positionLeft * .01;
+    LCD.print( tempvalflt);
     LCD.print("%");
     break;
   default:
+  // No other cases match set to 1
   screen = 1;
   
   
@@ -242,22 +234,18 @@ void updateLCD(int screenvar)
 void pollsensors()
 {
 
+  //We output all error messages to the hardware serial line.
+  
+  
   tempmili = millis();
   DHT22_ERROR_t errorCode;
-  //Serial.print("Requesting data...");
   errorCode = myDHT22.readData();
   switch(errorCode)
   {
   case DHT_ERROR_NONE:
-    //Serial.print("Got Data ");
-
     tempc = myDHT22.getTemperatureC();
-    tempf = Farenhot(tempc);
+    tempf = convtof(tempc);
     relh = myDHT22.getHumidity();
-    //
-    // Serial.print(tempc);
-    //Serial.print("C ");
-
     break;
   case DHT_ERROR_CHECKSUM:
     Serial.print("check sum error ");
@@ -293,10 +281,11 @@ void pollsensors()
 
 
 
-float Farenhot(float degc){
+float convtof(float degc){
   return ((9 * degc)/5) + 32;
-
 }
+
+//Assuming Sparkfun Serial LCD for LCD - modify as needed for any other type.
 
 void selectLineOne(){  //puts the cursor at line 0 char 0.
   LCD.print(0xFE, BYTE);   //command flag
@@ -349,11 +338,8 @@ void resetLCD() {
   LCD.print(18, BYTE); 
 } 
 
-/////
-void aChange (){
 
-  cflag = true;
-}
+// Note!! - for data structure to work correctly the structure must be initialized in eeprom!!! - if this is not done all dependent values will be zero!
 void initeeprom(){
   dumpeeprom();
   //set to default values
