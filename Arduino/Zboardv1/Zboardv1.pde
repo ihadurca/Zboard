@@ -13,7 +13,8 @@ struct config_t
 {
     float deshum;
     float destemp;
-    
+    float swayhum;
+    float swaytemp;
 } configuration;
 
 
@@ -126,7 +127,7 @@ void loop(void)
 
  if (digitalRead(menubut) == HIGH) {
    
-   //screens 2 & 3 accept user input - record changes if present and increment menu
+   //screens 2,3,4 accept user input - record changes if present and increment menu
    switch(screen){
      case 2:
        if(configuration.destemp != tempvalflt) //changes were made we should update the data structure and save.
@@ -145,9 +146,26 @@ void loop(void)
    
 
      break;
+     case 4:
+           if(configuration.swaytemp != tempvalflt) //changes were made we should update the data structure and save.
+          {
+          configuration.swaytemp = tempvalflt;
+          save();
+          }
+   
+
+     break; 
+     case 5:
+           if(configuration.swayhum != tempvalflt) //changes were made we should update the data structure and save.
+          {
+          configuration.swayhum = tempvalflt;
+          save();
+          }
+   
+
+     break; 
      
-     
-     
+
    }
    
    
@@ -159,8 +177,10 @@ void loop(void)
    delay(1000);
  }
 
+float tep;
+tep = configuration.destemp + configuration.swaytemp;
 
-if(tempf>configuration.destemp) {
+if(tempf>tep) {
  digitalWrite(relay1, HIGH);
 }else{
    digitalWrite(relay1, LOW);
@@ -168,7 +188,10 @@ if(tempf>configuration.destemp) {
   
 }
 
-if(relh<configuration.deshum) {
+float hum;
+hum = relh + configuration.swayhum;
+
+if(hum<configuration.deshum) {
  digitalWrite(relay2, HIGH);
 }else{
    digitalWrite(relay2, LOW);
@@ -203,7 +226,7 @@ void updateLCD(int screenvar)
         break;
   case 2:
     selectLineOne(); 
-    LCD.print("Please set Temp");
+    LCD.print("Set Temp");
     selectLineTwo();
     
    
@@ -213,13 +236,29 @@ void updateLCD(int screenvar)
     break;
   case 3:
     selectLineOne(); 
-    LCD.print("Please set Hum%");
+    LCD.print("Set Hum%");
     selectLineTwo();
     
    
     tempvalflt = configuration.deshum + positionLeft * .01;
     LCD.print( tempvalflt);
     LCD.print("%");
+    break;
+  case 4:
+    selectLineOne(); 
+    LCD.print("Set Temp +/-");
+    selectLineTwo();
+    tempvalflt = configuration.swaytemp + positionLeft * .0025;
+    LCD.print( tempvalflt);
+    LCD.print("");
+    break;
+case 5:
+    selectLineOne(); 
+    LCD.print("Set Humidity +/-");
+    selectLineTwo();
+    tempvalflt = configuration.swayhum + positionLeft * .0025;
+    LCD.print( tempvalflt);
+    LCD.print("");
     break;
   default:
   // No other cases match set to 1
@@ -345,6 +384,8 @@ void initeeprom(){
   //set to default values
   configuration.destemp = 70;
   configuration.deshum = 50;
+  configuration.swaytemp = 0;
+  configuration.swayhum = 0;
   //Commit Changes
   EEPROM_writeAnything(0, configuration);
 }
@@ -357,7 +398,12 @@ void dumpeeprom()
   Serial.print("DesHum=");
   Serial.println(configuration.deshum);
   
+  Serial.print("Swaytemp=");
+  Serial.println(configuration.swaytemp);
   
+  Serial.print("Swayhum=");
+  Serial.println(configuration.swayhum);
+    
 }
 
 void save()
